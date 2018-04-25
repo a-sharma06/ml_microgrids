@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Online App Test">
+    <meta name="author" content="as">
+    <!-- <link rel="icon" href="favicon.ico"> -->
+
+    <title>Stock Data Lookup Demo</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Custom CSS for navbar-->
+    <style>
+    body {
+      padding-top: 70px;
+    }
+    </style>
+  <script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/D8EC5ADC-EEBE-1F46-A932-DBE801DE802E/main.js" charset="UTF-8"></script></head>
+
+  <body>
+    <!-- navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-1">
+          <span class="sr-only">Toggle navigation</span>
+          </button>
+          <span class="navbar-brand">Ticker Lookup App</span>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- form -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-left">
+          <form id='input' method='post' action='about'>
+          <p>Ticker symbol: <input type='text' name='ticker' placeholder='GOOG' /></p>
+          <p>
+          <input type="checkbox" name='features' value='close' />Closing price<br>
+          <input type="checkbox" name='features' value='adj_close' />Adjusted closing price<br>
+          <input type="checkbox" name='features' value='open' />Opening price<br>
+          <input type="checkbox" name='features' value='adj_open' />Adjusted opening price<br>
+          </p>
+          <p><input type="submit" value="Submit"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+</html>
