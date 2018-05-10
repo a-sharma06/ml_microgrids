@@ -79,7 +79,7 @@ def about():
     script, div = components(plot)
     
     # show the results
-    return render_template('about.html',result = data, keys = data.keys()) #script=script, div=div, 
+    return render_template('about.html', result = data, keys = data.keys(),script=script, div=div) 
 
 if __name__ == '__main__':
    app.run()
