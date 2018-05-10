@@ -15,6 +15,7 @@ from bokeh.embed import components
 import os
 import networkx as nx
 from bokeh.models.graphs import from_networkx
+import gc
 #import matplotlib.pyplot as plt
 
 
@@ -81,11 +82,14 @@ def about():
     Tedges.source = pd.to_numeric(Tedges.source)
     Tedges.target = pd.to_numeric(Tedges.target)
     Tnodes = adrs[['GEO_ID','LATITUDE','LONGITUDE']]
+    del(adrs)
     Tnodes.columns=['id', 'x', 'y']
     Tnodes.set_index('id', inplace=True)
     direct = connect_edges(Tnodes, Tedges[['source','target']])
 
     points = hv.Points((location2.LATITUDE, location2.LONGITUDE),label="Buildings")
+    del(location2)
+    gc.collect()
     paths = hv.Path([direct])
     #datashade(points) + datashade(paths)
 
