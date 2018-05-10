@@ -22,8 +22,8 @@ app = Flask(__name__)
 
 
 T = nx.read_gpickle("static/T.gpickle")
-adrs = pd.read_csv('adrs.csv')
-location2 = pd.read_csv('location2.csv')
+adrs = pd.read_csv('static/adrs.csv')
+location2 = pd.read_csv('static/location2.csv')
 
 
 @app.route('/', methods = ['POST', 'GET'])
