@@ -21,7 +21,7 @@ from bokeh.models.graphs import from_networkx
 app = Flask(__name__)
 
 
-T = nx.read_gml('static/T.gml')
+#T = nx.read_gml('static/T.gml')
 
 
 @app.route('/', methods = ['POST', 'GET'])
