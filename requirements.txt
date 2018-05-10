@@ -4,6 +4,6 @@ Flask==0.10.1
 Flask-SQLAlchemy==1.0
 Flask-WTF==0.9.3
 pandas==0.20.1
-bokeh==0.12.4
+bokeh==0.12.13
 numpy==1.11.3
 networkx==2.0
