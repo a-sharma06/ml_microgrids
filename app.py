@@ -71,12 +71,12 @@ def about():
     #p.legend.location = "top_left"
     ##p.legend.click_policy="hide"
 
-    #plot = figure(title="Networkx Integration Demonstration",
-    #          tools="", toolbar_location=None)
+    plot = figure(title="Networkx Integration Demonstration",
+              tools="", toolbar_location=None)
 
-    #graph = from_networkx(H, nx.spring_layout, scale=2, center=(0,0))
-    #plot.renderers.append(graph)    
-    #script, div = components(plot)
+    graph = from_networkx(H, nx.spring_layout, scale=2, center=(0,0))
+    plot.renderers.append(graph)    
+    script, div = components(plot)
     
     # show the results
     return render_template('about.html',result = data, keys = data.keys()) #script=script, div=div, 
