@@ -7,3 +7,5 @@ pip
 simplejson
 requests
 wheel
+datashader==0.6.4
+holoviews==1.9.2
