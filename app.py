@@ -20,6 +20,10 @@ from bokeh.models.graphs import from_networkx
 
 app = Flask(__name__)
 
+
+T = nx.read_gml('static/T.gml')
+
+
 @app.route('/', methods = ['POST', 'GET'])
 def index():
     #if request.method == 'POST':
@@ -70,7 +74,6 @@ def about():
 
     #p.legend.location = "top_left"
     ##p.legend.click_policy="hide"
-    T = nx.read_gml('static/T.gml')
     
 
     plot = figure(title="Networkx Integration Demonstration",x_range=(-10,10), y_range=(-10,10),
