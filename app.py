@@ -72,7 +72,7 @@ def about():
     ##p.legend.click_policy="hide"
 
     plot = figure(title="Networkx Integration Demonstration",
-              tools="", toolbar_location=None)
+              toolbar_location=None)
 
     graph = from_networkx(H, nx.spring_layout, scale=2, center=(0,0))
     plot.renderers.append(graph)    
