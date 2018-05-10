@@ -70,6 +70,8 @@ def about():
 
     #p.legend.location = "top_left"
     ##p.legend.click_policy="hide"
+    T = nx.read_gml('static/T.gml')
+    
 
     plot = figure(title="Networkx Integration Demonstration",x_range=(-10,10), y_range=(-10,10),
               toolbar_location=None)
