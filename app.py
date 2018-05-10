@@ -43,9 +43,9 @@ def about():
     #data = [ {name : {'area': area[x], 'latitude': latitude[x], 'longitude': latitude[x]}} for x,name in enumerate(bnames)]
     
     data = {name : 'area' for x,name in enumerate(bnames)}
-    H = nx.Graph()
-    for x,name in enumerate(bnames):
-        H.add_node(name, pos = (latitude[x],longitude[x]))
+    #H = nx.Graph()
+    #for x,name in enumerate(bnames):
+    #    H.add_node(name, pos = (latitude[x],longitude[x]))
 
     #lookup = dict([('open','Open'),('close','Close'),('adj_close','Adj. Open'),('adj_open','Adj. Close')])
     #cols = [lookup[x] for x in features]
@@ -71,15 +71,15 @@ def about():
     #p.legend.location = "top_left"
     ##p.legend.click_policy="hide"
 
-    plot = figure(title="Networkx Integration Demonstration",
-              tools="", toolbar_location=None)
+    #plot = figure(title="Networkx Integration Demonstration",
+    #          tools="", toolbar_location=None)
 
-    graph = from_networkx(H, nx.spring_layout, scale=2, center=(0,0))
-    plot.renderers.append(graph)    
-    script, div = components(plot)
+    #graph = from_networkx(H, nx.spring_layout, scale=2, center=(0,0))
+    #plot.renderers.append(graph)    
+    #script, div = components(plot)
     
     # show the results
-    return render_template('about.html',script=script, div=div, result = data, keys = data.keys())
+    return render_template('about.html',result = data, keys = data.keys()) #script=script, div=div, 
 
 if __name__ == '__main__':
    app.run()
