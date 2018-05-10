@@ -16,16 +16,14 @@ import os
 import networkx as nx
 from bokeh.models.graphs import from_networkx
 import gc
+from scipy.spatial import Delaunay
+from scipy.spatial.distance import pdist, squareform
+
+
 #import matplotlib.pyplot as plt
 
 
 app = Flask(__name__)
-
-
-T = nx.read_gpickle("static/T.gpickle")
-adrs = pd.read_csv('static/adrs.csv')
-location2 = pd.read_csv('static/location2.csv')
-
 
 @app.route('/', methods = ['POST', 'GET'])
 def index():
@@ -47,13 +45,22 @@ def about():
     latitude = [float(x) for x in latitude]
     longitude = request.form.getlist('longitude')
     longitude = [float(x) for x in longitude]
+    types = request.form.getlist('longitude')
     #data = [ {name : {'area': area[x], 'latitude': latitude[x], 'longitude': latitude[x]}} for x,name in enumerate(bnames)]
     
-    data = {name : 'area' for x,name in enumerate(bnames)}
-    H = nx.Graph()
-    for x,name in enumerate(bnames):
-        H.add_node(name, pos = (latitude[x],longitude[x]))
 
+    A = np.array(zip(latitude,longitude))
+    B = squareform(pdist(A))
+    
+    H = nx.from_numpy_matrix(B)
+    path = list(nx.shortest_path(H,source=0))
+    path_edges = zip(path,path[1:])
+    pos = nx.spring_layout(H)
+    nx.draw_networkx_edges(H,pos,edgelist=path_edges,edge_color='r',width=1)
+    
+    G = nx.Graph()
+    G.add_nodes_from(H)
+    G.add_edges_from(path_edges, color='red')
     #lookup = dict([('open','Open'),('close','Close'),('adj_close','Adj. Open'),('adj_open','Adj. Close')])
     #cols = [lookup[x] for x in features]
     #cols.append('Date')
@@ -77,33 +84,13 @@ def about():
 
     #p.legend.location = "top_left"
     ##p.legend.click_policy="hide"
+    #OneHotEncoding
     
-    Tedges = nx.to_pandas_edgelist(T)
-    Tedges.source = pd.to_numeric(Tedges.source)
-    Tedges.target = pd.to_numeric(Tedges.target)
-    Tnodes = adrs[['GEO_ID','LATITUDE','LONGITUDE']]
-    del(adrs)
-    gc.collect()
-    Tnodes.columns=['id', 'x', 'y']
-    Tnodes.set_index('id', inplace=True)
-    direct = connect_edges(Tnodes, Tedges[['source','target']])
-    del(Tedges)
-    gc.collect()
-    del(Tnodes)
-    gc.collect()
-
-    points = hv.Points((location2.LATITUDE, location2.LONGITUDE),label="Buildings")
-    del(location2)
-    gc.collect()
-    paths = hv.Path([direct])
-    #datashade(points) + datashade(paths)
-
 
     plot = figure(title="Networkx Integration Demonstration",x_range=(-10,10), y_range=(-10,10),
               toolbar_location=None)
 
-    graph = from_networkx(H, nx.spring_layout, scale = 100, center=(0,0))
-    
+    graph = from_networkx(G, nx.spring_layout, scale = 100, center=(0,0))
     
     plot.renderers.append(graph)    
     script, div = components(plot)
