@@ -13,6 +13,10 @@ from bokeh.palettes import Spectral11, Blues8
 from flask import Flask, render_template, request, redirect
 from bokeh.embed import components 
 import os
+import networkx as nx
+from bokeh.models.graphs import from_networkx
+import matplotlib.pyplot as plt
+
 
 app = Flask(__name__)
 
@@ -33,10 +37,15 @@ def about():
     bnames = request.form.getlist('name')
     area = request.form.getlist('area')
     latitude = request.form.getlist('latitude') 
+    latitude = [float(x) for x in latitude]
     longitude = request.form.getlist('longitude')
+    longitude = [float(x) for x in longitude]
     #data = [ {name : {'area': area[x], 'latitude': latitude[x], 'longitude': latitude[x]}} for x,name in enumerate(bnames)]
     
-    data = [ {name : 'area'} for x,name in enumerate(bnames)]
+    data = {name : 'area' for x,name in enumerate(bnames)}
+    H = nx.Graph()
+    for x,name in enumerate(bnames):
+        H.add_node(name, pos = (latitude[x],longitude[x]))
 
     #lookup = dict([('open','Open'),('close','Close'),('adj_close','Adj. Open'),('adj_open','Adj. Close')])
     #cols = [lookup[x] for x in features]
@@ -62,11 +71,15 @@ def about():
     #p.legend.location = "top_left"
     ##p.legend.click_policy="hide"
 
-    
-    #script, div = components(p)
+    plot = figure(title="Networkx Integration Demonstration",
+              tools="", toolbar_location=None)
+
+    graph = from_networkx(H, nx.spring_layout, scale=2, center=(0,0))
+    plot.renderers.append(graph)    
+    script, div = components(plot)
     
     # show the results
-    return render_template('about.html', result = data)
+    return render_template('about.html',script=script, div=div, result = data, keys = data.keys())
 
 if __name__ == '__main__':
-   app.run()
+   app.run(host='0.0.0.0')
