@@ -71,7 +71,7 @@ def about():
     #p.legend.location = "top_left"
     ##p.legend.click_policy="hide"
 
-    plot = figure(title="Networkx Integration Demonstration",
+    plot = figure(title="Networkx Integration Demonstration",x_range=(-10,10), y_range=(-10,10),
               toolbar_location=None)
 
     graph = from_networkx(H, nx.spring_layout, scale = 100, center=(0,0))
