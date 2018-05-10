@@ -83,9 +83,14 @@ def about():
     Tedges.target = pd.to_numeric(Tedges.target)
     Tnodes = adrs[['GEO_ID','LATITUDE','LONGITUDE']]
     del(adrs)
+    gc.collect()
     Tnodes.columns=['id', 'x', 'y']
     Tnodes.set_index('id', inplace=True)
     direct = connect_edges(Tnodes, Tedges[['source','target']])
+    del(Tedges)
+    gc.collect()
+    del(Tnodes)
+    gc.collect()
 
     points = hv.Points((location2.LATITUDE, location2.LONGITUDE),label="Buildings")
     del(location2)
