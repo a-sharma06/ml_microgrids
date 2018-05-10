@@ -15,7 +15,7 @@ from bokeh.embed import components
 import os
 import networkx as nx
 from bokeh.models.graphs import from_networkx
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 
 app = Flask(__name__)
