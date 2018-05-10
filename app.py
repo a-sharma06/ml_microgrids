@@ -55,6 +55,7 @@ def about():
     B = squareform(pdist(A))
     
     H = nx.from_numpy_matrix(B)
+    nx.set_node_attributes(H, zip(latitude,longitude), 'pos')
     path = list(nx.shortest_path(H,source=0))
     path_edges = zip(path,path[1:])
     pos = nx.spring_layout(H)
@@ -62,6 +63,7 @@ def about():
     G = nx.Graph()
     G.add_nodes_from(H)
     G.add_edges_from(path_edges, color='red')
+    nx.set_node_attributes(G, zip(latitude,longitude), 'pos')
     #lookup = dict([('open','Open'),('close','Close'),('adj_close','Adj. Open'),('adj_open','Adj. Close')])
     #cols = [lookup[x] for x in features]
     #cols.append('Date')
