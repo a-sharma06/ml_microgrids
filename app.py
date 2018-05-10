@@ -82,4 +82,4 @@ def about():
     return render_template('about.html',script=script, div=div, result = data, keys = data.keys())
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0')
+   app.run()
