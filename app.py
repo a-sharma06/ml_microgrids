@@ -9,15 +9,17 @@ import requests
 import pandas as pd
 import io
 from bokeh.plotting import figure
-from bokeh.palettes import Spectral11, Blues8
+from bokeh.palettes import Spectral11, Blues8, Spectral4
 from flask import Flask, render_template, request, redirect
 from bokeh.embed import components 
 import os
 import networkx as nx
-from bokeh.models.graphs import from_networkx
+from bokeh.models.graphs import from_networkx, NodesAndLinkedEdges, EdgesAndLinkedNodes
 import gc
 from scipy.spatial import Delaunay
 from scipy.spatial.distance import pdist, squareform
+import numpy as np
+from bokeh.models import Plot, Range1d, MultiLine, Circle, HoverTool, TapTool, BoxSelectTool
 
 
 #import matplotlib.pyplot as plt
@@ -56,7 +58,6 @@ def about():
     path = list(nx.shortest_path(H,source=0))
     path_edges = zip(path,path[1:])
     pos = nx.spring_layout(H)
-    nx.draw_networkx_edges(H,pos,edgelist=path_edges,edge_color='r',width=1)
     
     G = nx.Graph()
     G.add_nodes_from(H)
@@ -87,12 +88,25 @@ def about():
     #OneHotEncoding
     
 
-    plot = figure(title="Networkx Integration Demonstration",x_range=(-10,10), y_range=(-10,10),
-              toolbar_location=None)
+    plot = figure(title="Building Microgrid Path",x_range=(-50,50), y_range=(-50,50), 
+                  tools="pan,wheel_zoom,box_zoom,reset")
 
-    graph = from_networkx(G, nx.spring_layout, scale = 100, center=(0,0))
+#    plot.add_tools(HoverTool(tooltips=None), TapTool(), BoxSelectTool())
     
-    plot.renderers.append(graph)    
+    graph_renderer  = from_networkx(G, nx.spring_layout, scale = 2, center=(0,0))
+    graph_renderer.node_renderer.glyph = Circle(size=15, fill_color=Spectral4[0])
+    graph_renderer.node_renderer.selection_glyph = Circle(size=15, fill_color=Spectral4[2])
+    graph_renderer.node_renderer.hover_glyph = Circle(size=15, fill_color=Spectral4[1])
+    
+    graph_renderer.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.8, line_width=5)
+    graph_renderer.edge_renderer.selection_glyph = MultiLine(line_color=Spectral4[2], line_width=5)
+    graph_renderer.edge_renderer.hover_glyph = MultiLine(line_color=Spectral4[1], line_width=5)
+    
+    graph_renderer.selection_policy = NodesAndLinkedEdges()
+    graph_renderer.inspection_policy = EdgesAndLinkedNodes()
+
+   
+    plot.renderers.append(graph_renderer)    
     script, div = components(plot)
     
     # show the results
