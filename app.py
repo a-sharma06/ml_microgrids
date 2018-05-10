@@ -15,7 +15,7 @@ from bokeh.embed import components
 import os
 import networkx as nx
 from bokeh.models.graphs import from_networkx
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 app = Flask(__name__)
@@ -43,9 +43,9 @@ def about():
     #data = [ {name : {'area': area[x], 'latitude': latitude[x], 'longitude': latitude[x]}} for x,name in enumerate(bnames)]
     
     data = {name : 'area' for x,name in enumerate(bnames)}
-    #H = nx.Graph()
-    #for x,name in enumerate(bnames):
-    #    H.add_node(name, pos = (latitude[x],longitude[x]))
+    H = nx.Graph()
+    for x,name in enumerate(bnames):
+        H.add_node(name, pos = (latitude[x],longitude[x]))
 
     #lookup = dict([('open','Open'),('close','Close'),('adj_close','Adj. Open'),('adj_open','Adj. Close')])
     #cols = [lookup[x] for x in features]

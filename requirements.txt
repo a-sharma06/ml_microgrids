@@ -7,3 +7,4 @@ pandas==0.20.1
 bokeh==0.12.13
 numpy==1.11.3
 networkx==2.0
+matplotlib==2.1.0
