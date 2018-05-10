@@ -74,7 +74,7 @@ def about():
     plot = figure(title="Networkx Integration Demonstration",
               toolbar_location=None)
 
-    graph = from_networkx(H, nx.spring_layout, scale=2, center=(0,0))
+    graph = from_networkx(H)
     plot.renderers.append(graph)    
     script, div = components(plot)
     
