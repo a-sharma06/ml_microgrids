@@ -34,8 +34,10 @@ def about():
     area = request.form.getlist('area')
     latitude = request.form.getlist('latitude') 
     longitude = request.form.getlist('longitude')
-    data = [ {name : {'area': area[x], 'latitude': latitude[x], 'longitude': latitude[x]}} for x,name in enumerate(bnames)]
+    #data = [ {name : {'area': area[x], 'latitude': latitude[x], 'longitude': latitude[x]}} for x,name in enumerate(bnames)]
     
+    data = [ {name : 'area'} for x,name in enumerate(bnames)]
+
     #lookup = dict([('open','Open'),('close','Close'),('adj_close','Adj. Open'),('adj_open','Adj. Close')])
     #cols = [lookup[x] for x in features]
     #cols.append('Date')
