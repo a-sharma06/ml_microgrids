@@ -71,10 +71,6 @@ def about():
     #p.legend.location = "top_left"
     ##p.legend.click_policy="hide"
 
-    plot = figure(title="Networkx Integration Demonstration",
-              toolbar_location=None)
-
-    graph = from_networkx(H, nx.spring_layout, scale = 100, center=(0,0))
     
     #G=nx.karate_club_graph()
     
@@ -87,7 +83,7 @@ def about():
     script, div = components(plot)
     
     # show the results
-    return render_template('about.html', result = data, keys = data.keys(),script=script, div=div) 
+    return render_template('about.html', result = data, keys = data.keys(), script=script, div=div) 
 
 if __name__ == '__main__':
    app.run()
