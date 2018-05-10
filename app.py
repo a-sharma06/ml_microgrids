@@ -22,6 +22,8 @@ app = Flask(__name__)
 
 
 T = nx.read_gpickle("static/T.gpickle")
+adrs = pd.read_csv('adrs.csv')
+location2 = pd.read_csv('location2.csv')
 
 
 @app.route('/', methods = ['POST', 'GET'])
@@ -75,6 +77,18 @@ def about():
     #p.legend.location = "top_left"
     ##p.legend.click_policy="hide"
     
+    Tedges = nx.to_pandas_edgelist(T)
+    Tedges.source = pd.to_numeric(Tedges.source)
+    Tedges.target = pd.to_numeric(Tedges.target)
+    Tnodes = adrs[['GEO_ID','LATITUDE','LONGITUDE']]
+    Tnodes.columns=['id', 'x', 'y']
+    Tnodes.set_index('id', inplace=True)
+    direct = connect_edges(Tnodes, Tedges[['source','target']])
+
+    points = hv.Points((location2.LATITUDE, location2.LONGITUDE),label="Buildings")
+    paths = hv.Path([direct])
+    #datashade(points) + datashade(paths)
+
 
     plot = figure(title="Networkx Integration Demonstration",x_range=(-10,10), y_range=(-10,10),
               toolbar_location=None)
