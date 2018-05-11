@@ -119,8 +119,8 @@ def about():
     #OneHotEncoding
     
     p = figure(title = "Suggested Microgrid",plot_width=500, plot_height=500, x_axis_type="mercator", y_axis_type="mercator", 
-               x_range = (min(longitude) -0.1*(max(longitude) - min(longitude)), max(longitude) + 0.1*(max(longitude) - min(longitude))),
-               y_range = (min(latitude) -0.1*(max(latitude) - min(latitude)), max(latitude) + 0.1*(max(latitude) - min(latitude))))
+               x_range = (min(longitude) -0.25*(max(longitude) - min(longitude)), max(longitude) + 0.25*(max(longitude) - min(longitude))),
+               y_range = (min(latitude) -0.25*(max(latitude) - min(latitude)), max(latitude) + 0.25*(max(latitude) - min(latitude))))
                
     p.add_tile(CARTODBPOSITRON_RETINA)
 
