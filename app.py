@@ -118,7 +118,7 @@ def about():
     ##p.legend.click_policy="hide"
     #OneHotEncoding
     
-    p = figure(title = "Suggested Microgrid",plot_width=400, plot_height=400, x_axis_type="mercator", y_axis_type="mercator")
+    p = figure(title = "Suggested Microgrid",plot_width=500, plot_height=500, x_axis_type="mercator", y_axis_type="mercator")
     p.add_tile(CARTODBPOSITRON_RETINA)
 
     # add a circle renderer with a size, color, and alpha
