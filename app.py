@@ -125,7 +125,7 @@ def about():
     p.add_tile(CARTODBPOSITRON_RETINA)
 
     # add a circle renderer with a size, color, and alpha
-    p.circle(longitude,latitude, size=20, color="black")
+    p.circle(longitude,latitude, size=20, color="coral")
     p.multi_line(xs, ys, color="dimgray", line_width=4)
     p.text(longitude, latitude, bnames)
     
