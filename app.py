@@ -6,20 +6,27 @@ Created on Tue Apr 24 23:19:56 2018
 """
 
 import requests
+
 import pandas as pd
+import numpy as np
+
 import io
+import os
+import gc
+import itertools
+
+from flask import Flask, render_template, request, redirect
+
 from bokeh.plotting import figure
 from bokeh.palettes import Spectral11, Blues8, Spectral4
-from flask import Flask, render_template, request, redirect
 from bokeh.embed import components 
-import os
-import networkx as nx
-from bokeh.models.graphs import from_networkx, NodesAndLinkedEdges, EdgesAndLinkedNodes
-import gc
-from scipy.spatial import Delaunay
+from bokeh.tile_providers import CARTODBPOSITRON_RETINA
+
 from scipy.spatial.distance import pdist, squareform
-import numpy as np
-from bokeh.models import Plot, Range1d, MultiLine, Circle, HoverTool, TapTool, BoxSelectTool
+
+import networkx as nx
+
+import pyproj
 
 
 #import matplotlib.pyplot as plt
@@ -41,6 +48,11 @@ def index():
 def about():
     #ticker = 'GOOG'
     #ticker = request.form['ticker']
+    #bnames = ['a','b','c','d','e']
+    #latitude= [40.729957,40.730223,40.730391,40.729780,40.729427]
+    #longitude = [-73.998538,-73.998399, -73.998773,-73.997947,-73.997074]
+    #types = ['office','residential','office','office','office']
+    #area= [20000,5000,56000,456000,45006]
     bnames = request.form.getlist('name')
     area = request.form.getlist('area')
     latitude = request.form.getlist('latitude') 
@@ -48,22 +60,39 @@ def about():
     longitude = request.form.getlist('longitude')
     longitude = [float(x) for x in longitude]
     types = request.form.getlist('longitude')
-    #data = [ {name : {'area': area[x], 'latitude': latitude[x], 'longitude': latitude[x]}} for x,name in enumerate(bnames)]
-    
+    temp = latitude
+    # original projection
+    outProj = pyproj.Proj("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs")
+    # resulting projection, WGS84, long, lat
+    p =pyproj.Proj(init='epsg:4326')
 
+    longitude, latitude = pyproj.transform(p,outProj,longitude, latitude)
+    
+    #latitude = [utm.from_latlon(lat, longitude[i])[0] for i, lat in enumerate(latitude)]
+    #longitude = [utm.from_latlon(temp[i], lon)[1] for i, lon in enumerate(longitude)]
+    #del(temp)
+    
+    data = {name : {'area': area[x], 'latitude': latitude[x], 'longitude': longitude[x], 'type': types[x]} for x,name in enumerate(bnames)}
+    
+    
+    
     A = np.array(zip(latitude,longitude))
     B = squareform(pdist(A))
     
-    H = nx.from_numpy_matrix(B)
-    nx.set_node_attributes(H, zip(latitude,longitude), 'pos')
-    path = list(nx.shortest_path(H,source=0))
-    path_edges = zip(path,path[1:])
-    pos = nx.spring_layout(H)
+    pos = {x: (latitude[i], longitude[i]) for i,x in enumerate(list(bnames))}
+    edges = [(row[0],row[1],pdist(np.array((pos[row[0]],pos[row[1]])))[0]) for row in list(itertools.combinations(bnames,2))]  
     
-    G = nx.Graph()
-    G.add_nodes_from(H)
-    G.add_edges_from(path_edges, color='red')
-    nx.set_node_attributes(G, zip(latitude,longitude), 'pos')
+    H = nx.Graph()
+    H.add_nodes_from(pos.keys())
+    H.add_weighted_edges_from(edges)
+    G = nx.minimum_spanning_tree(H)
+    
+    #path = list(nx.shortest_path(G))
+    #path_edges = zip(path,path[1:])
+    
+    ys = [[data[edge[0]]['latitude'],data[edge[1]]['latitude']] for edge in list(G.edges())]
+    xs = [[data[edge[0]]['longitude'],data[edge[1]]['longitude']] for edge in list(G.edges())]
+    
     #lookup = dict([('open','Open'),('close','Close'),('adj_close','Adj. Open'),('adj_open','Adj. Close')])
     #cols = [lookup[x] for x in features]
     #cols.append('Date')
@@ -89,27 +118,16 @@ def about():
     ##p.legend.click_policy="hide"
     #OneHotEncoding
     
+    p = figure(title = "Suggested Microgrid",plot_width=400, plot_height=400, x_axis_type="mercator", y_axis_type="mercator")
+    p.add_tile(CARTODBPOSITRON_RETINA)
 
-    plot = figure(title="Building Microgrid Path",x_range=(-50,50), y_range=(-50,50), 
-                  tools="pan,wheel_zoom,box_zoom,reset")
+    # add a circle renderer with a size, color, and alpha
+    p.circle(longitude,latitude, size=10, color="navy")
+    p.multi_line(xs, ys, color="firebrick", line_width=4)
+    p.text(longitude, latitude, bnames)
+    
 
-#    plot.add_tools(HoverTool(tooltips=None), TapTool(), BoxSelectTool())
-    
-    graph_renderer  = from_networkx(G, nx.spring_layout, scale = 2, center=(0,0))
-    graph_renderer.node_renderer.glyph = Circle(size=15, fill_color=Spectral4[0])
-    graph_renderer.node_renderer.selection_glyph = Circle(size=15, fill_color=Spectral4[2])
-    graph_renderer.node_renderer.hover_glyph = Circle(size=15, fill_color=Spectral4[1])
-    
-    graph_renderer.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.8, line_width=5)
-    graph_renderer.edge_renderer.selection_glyph = MultiLine(line_color=Spectral4[2], line_width=5)
-    graph_renderer.edge_renderer.hover_glyph = MultiLine(line_color=Spectral4[1], line_width=5)
-    
-    graph_renderer.selection_policy = NodesAndLinkedEdges()
-    graph_renderer.inspection_policy = EdgesAndLinkedNodes()
-
-   
-    plot.renderers.append(graph_renderer)    
-    script, div = components(plot)
+    script, div = components(p)
     
     # show the results
     return render_template('about.html', script=script, div=div) 
