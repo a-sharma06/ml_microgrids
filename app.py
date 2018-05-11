@@ -126,7 +126,7 @@ def about():
 
     # add a circle renderer with a size, color, and alpha
     p.circle(longitude,latitude, size=20, color="cornflowerblue")
-    p.multi_line(xs, ys, color="silver", line_width=4)
+    p.multi_line(xs, ys, color="peachpuff", line_width=4)
     p.text(longitude, latitude, bnames)
     
 
