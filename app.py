@@ -118,7 +118,10 @@ def about():
     ##p.legend.click_policy="hide"
     #OneHotEncoding
     
-    p = figure(title = "Suggested Microgrid",plot_width=500, plot_height=500, x_axis_type="mercator", y_axis_type="mercator")
+    p = figure(title = "Suggested Microgrid",plot_width=500, plot_height=500, x_axis_type="mercator", y_axis_type="mercator", 
+               x_range = (min(longitude) -0.1*(max(longitude) - min(longitude)), max(longitude) + 0.1*(max(longitude) - min(longitude))),
+               y_range = (min(latitude) -0.1*(max(latitude) - min(latitude)), max(latitude) + 0.1*(max(latitude) - min(latitude))))
+               
     p.add_tile(CARTODBPOSITRON_RETINA)
 
     # add a circle renderer with a size, color, and alpha
