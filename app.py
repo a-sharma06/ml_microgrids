@@ -59,6 +59,12 @@ def about():
     longitude = [float(x) for x in longitude]
     types = request.form.getlist('longitude')
     
+    #--------------
+    # Reading weather data
+    #--------------
+    
+    weather = pd.read_csv('./data/testweather.csv')
+    
     #---------------
     # Reprojecting the coordinates
     #---------------
