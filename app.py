@@ -63,6 +63,9 @@ def about():
     # Reading weather data
     #--------------
     
+    rows = [[bnames[x], area[x], latitude[x], longitude[x], types[x]] for x in range(0,len(bnames))]
+    inputdf = pd.DataFrame(rows)
+    
     weather = pd.read_csv('./data/testweather.csv')
     
     #---------------
