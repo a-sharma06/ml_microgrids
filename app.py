@@ -60,13 +60,20 @@ def about():
     types = request.form.getlist('longitude')
     
     #--------------
-    # Reading weather data
+    # Reading weather data and creatinf test data
     #--------------
     
     rows = [[bnames[x], area[x], latitude[x], longitude[x], types[x]] for x in range(0,len(bnames))]
     inputdf = pd.DataFrame(rows)
+    inputdf = pd.DataFrame(rows, columns = ['bnames', 'area', 'latitude', 'longitude', 'types'])
+    inputdf['key'] = 1
     
-    weather = pd.read_csv('./data/testweather.csv')
+    weather = pd.read_csv('C:/Users/Akshay/Documents/GitHub/ml_microgrids/data/testweather.csv')
+    weather['key'] = 1
+    
+    merge_df = pd.merge(weather, inputdf[['area', 'types', 'bnames', 'key']], on='key').drop('key', axis = 1)
+    testdata = merge_df.drop('bnames', axis = 1)
+    names = merge_df['bnames']
     
     #---------------
     # Reprojecting the coordinates
