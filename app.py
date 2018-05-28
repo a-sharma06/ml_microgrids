@@ -41,8 +41,7 @@ import pickle
 
 app = Flask(__name__)
 
-pkl_file = open('./data/mlmicrogrid.pkl', 'rb')
-rf2 = pickle.load(pkl_file)
+
 
 @app.route('/', methods = ['POST', 'GET'])
 def index():
@@ -112,13 +111,13 @@ def about():
     # Loading the Machine Learning model from pickle
     #-------------------
     
-    #pkl_file = open('./data/mlmicrogrid.pkl', 'rb')
-    #rf2 = pickle.load(pkl_file)
+    pkl_file = open('./data/mlmicrogrid.pkl', 'rb')
+    rf2 = pickle.load(pkl_file)
     
     #--------------------
     # Pre-processing the input data
     lb = LabelBinarizer()
-    #testdata['type'] = lb.fit_transform(testdata['type'])
+    testdata['type'] = lb.fit_transform(testdata['type'])
     pca = PCA(n_components=2)
     testdata = pca.fit_transform(testdata)
     
