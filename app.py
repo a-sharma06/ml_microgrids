@@ -111,8 +111,8 @@ def about():
     # Loading the Machine Learning model from pickle
     #-------------------
     
-    pkl_file = open('./data/mlmicrogrid.pkl', 'rb')
-    rf2 = pickle.load(pkl_file)
+    #pkl_file = open('./data/mlmicrogrid.pkl', 'rb')
+    #rf2 = pickle.load(pkl_file)
     
     #--------------------
     # Pre-processing the input data
