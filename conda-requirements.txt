@@ -9,3 +9,4 @@ requests
 wheel
 datashader==0.6.4
 holoviews==1.9.2
+sklearn==0.19.1
