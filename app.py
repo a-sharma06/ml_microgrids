@@ -118,7 +118,7 @@ def about():
     #--------------------
     # Pre-processing the input data
     lb = LabelBinarizer()
-    testdata['type'] = lb.fit_transform(testdata['type'])
+    #testdata['type'] = lb.fit_transform(testdata['type'])
     pca = PCA(n_components=2)
     testdata = pca.fit_transform(testdata)
     
