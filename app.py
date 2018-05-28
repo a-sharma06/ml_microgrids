@@ -41,6 +41,8 @@ import pickle
 
 app = Flask(__name__)
 
+pkl_file = open('./data/mlmicrogrid.pkl', 'rb')
+rf2 = pickle.load(pkl_file)
 
 
 @app.route('/', methods = ['POST', 'GET'])
@@ -77,7 +79,7 @@ def about():
     inputdf = pd.DataFrame(rows, columns = ['bnames', 'area', 'latitude', 'longitude', 'type'])
     inputdf['key'] = 1
     
-    weather = pd.read_csv('C:/Users/Akshay/Documents/GitHub/ml_microgrids/data/testweather.csv')
+    weather = pd.read_csv('./data/testweather.csv')
     weather['key'] = 1
     
     merge_df = pd.merge(weather, inputdf[['area', 'type', 'bnames', 'key']], on='key').drop('key', axis = 1)
