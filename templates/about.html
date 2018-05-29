@@ -1,34 +1,104 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <link
-    href="https://cdn.pydata.org/bokeh/release/bokeh-0.12.15.min.css"
-    rel="stylesheet" type="text/css">
-    <link
-    href="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.15.min.css"
-    rel="stylesheet" type="text/css">
-    <link
-    href="https://cdn.pydata.org/bokeh/release/bokeh-tables-0.12.15.min.css"
-    rel="stylesheet" type="text/css">
-    <script src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.15.min.js"></script>
-    <script src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.15.min.js"></script>
-    <script src="https://cdn.pydata.org/bokeh/release/bokeh-tables-0.12.15.min.js"></script>
-	
-    {{ script | safe }}
-  </head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Capstone">
+    <meta name="author" content="as">
+    <!-- <link rel="icon" href="favicon.ico"> -->
+
+    <title>ML Driven Microgrids - Demo</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Custom CSS for navbar-->
+    <style>
+    body {
+      padding-top: 70px;
+    }
+	h1 {
+		text-align:center;
+		margin-top: 1em;
+		margin-left: 8em;
+		margin-right: 8em;
+		margin-bottom: 2em;
+		}
+	h3 {
+		text-align:center;
+		margin-left: 8em;
+		margin-right: 8em;
+		margin-top: 3em;
+		margin-bottom: 1em;
+		}		
+	p {
+		text-align:center;
+		margin-left: 16em;
+		margin-right: 16em;
+		margin-top: 2em;
+		margin-bottom: 2em;
+		}
+		
+    </style>
+  <script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/D8EC5ADC-EEBE-1F46-A932-DBE801DE802E/main.js" charset="UTF-8"></script></head>
+
   <body>
-   <div class=page>
-      {{ div | safe }}
-    </div>
-      <table border = 1>
-         {% for key,value in data %}
-         
-            <tr>
-               <th> {{ key }} </th>
-               <td> {{ value }} </td>
-            </tr>
-            
-         {% endfor %}
-      </table>
+    <!-- navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-1">
+          <span class="sr-only">Toggle navigation</span>
+          </button>
+          <span class="navbar-brand">Machine Learning Driven Microgrids - Demo</span>
+        </div>
+
+      <div class="collapse navbar-collapse" id="nav-1">
+          <ul class="nav navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="toronto">Downtown Toronto Analysis</a>
+            </li>
+			<li class="nav-item">
+              <a class="nav-link" href="about">Tool Info</a>
+            </li>
+			</ul>
+        </div>
+	  
+	  </div>
+	  
+	  
+    </nav>
+	
+		<h3>Analysis for Downtown Toronto</h3>
+		<p>
+		Using multiple open datasets, analysis for about 400,000 office and residential buildings was performed. Here, a subset of that analysis is provided which focuses on the dense urban region of Downtown Toronto.
+		This analysis hopes to shed light on the scale of infrastructure required for the future of such grids. This is helpful for urban planners, investors, climate change enthusiasts, and those fascinated by cities - including yours truly.
+		</p>
+		
+		<h3>How to Use</h3>
+		<p>
+		To use the tool, provide a unique building name and Gross Floor Area for each property you want to map. Enter the latitude and longitude obtained from Google Maps.
+		Also, provide the building type. If this is not provided, the building is considered to be an Office.
+		
+		Press "Add Row" to enter more buildings.
+		
+		</p>
+		<h3>Technical Info</h3>
+		<p>
+		The groups and sub groups are generated using DBSCAN from Python's scikit-learn package.
+		The tool uses Random Forests and AdaBoost Machine Learning models to predict the energy consumption for a given hour using the 
+		weather data for the last 10 hours. The model scores up to 40%, which is quite significant considering that the only building information
+		provided is area and type. Moreover, by limiting the analysis to short time series (less than a day), the model foregoes the traditional time series analysis.
+		</p>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </body>
 </html>

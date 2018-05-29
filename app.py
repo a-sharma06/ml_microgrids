@@ -53,6 +53,14 @@ def index():
         #return redirect(url_for('about'))      
     return render_template('index.html')
    
+@app.route('/about', methods = ['POST', 'GET'])
+def about():
+    #if request.method == 'POST':
+        #ticker = request.form['ticker']
+        #features = request.form['features']
+        #return redirect("https://www.google.com")
+        #return redirect(url_for('about'))      
+    return render_template('about.html')
     
 @app.route('/toronto', methods=['GET', 'POST'])
 def toronto():
@@ -88,8 +96,8 @@ def toronto():
 
     
 
-@app.route('/about', methods=['GET', 'POST'])
-def about():
+@app.route('/analysis', methods=['GET', 'POST'])
+def analysis():
     #bnames = ['a','b','c','d','e']
     #latitude= [40.729957,40.730223,40.730391,40.729780,40.729427]
     #longitude = [-73.998538,-73.998399, -73.998773,-73.997947,-73.997074]
@@ -240,7 +248,7 @@ def about():
     script, div = components(p)
     
     # show the results
-    return render_template('about.html', script=script, div=div) 
+    return render_template('analysis.html', script=script, div=div) 
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0')
