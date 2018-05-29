@@ -38,6 +38,7 @@
 		margin-top: 2em;
 		margin-bottom: 2em;
 		}
+		
     </style>
   <script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/D8EC5ADC-EEBE-1F46-A932-DBE801DE802E/main.js" charset="UTF-8"></script></head>
 
@@ -165,19 +166,41 @@
             </tr>
 			</tbody>
         <tfoot>
-            <tr>
-                <th>Name</th>
-                <th>Area</th>
-				<th>Latitude</th>
-				<th>Longitude</th>
-                <th>Type</th>
-            </tr>
+            
 			<p>
 			</p>
         </tfoot>
     </table>
+	
+
 		<p><input type="submit" value="Submit"></p>
 		</form>
+	<div class="container">
+		<button onclick="newRow()">Add Row</button>
+
+		<script>
+		function newRow() {
+			document.getElementById("example").insertRow(-1).innerHTML = '<tr> \
+                <td><input type="text" id="row-5-name" name="name" value="Building 5"></td> \
+				<td><input type="text" id="row-5-area" name="area" value="55000"></td> \
+                <td><input type="text" id="row-5-latitude" name="latitude" value="40.729427"></td> \
+				<td><input type="text" id="row-5-longitude" name="longitude" value="-73.997074"></td> \
+                <td><select size="1" id="row-5-type" name="type"> \
+                    <option value="--Select--" selected="selected"> \
+                        --Select-- \
+                    </option> \
+                    <option value="office"> \
+                        Office \
+                    </option> \
+                    <option value="residential"> \
+                        Residential \
+                    </option> \
+                </select></td>\
+            </tr>';
+
+		}
+		</script>
+		</div>
 		
 		<h3>About the Tool</h3>
 			
