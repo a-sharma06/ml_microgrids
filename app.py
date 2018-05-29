@@ -44,15 +44,48 @@ app = Flask(__name__)
 pkl_file = open('./data/mlmicrogrid.pkl', 'rb')
 rf2 = pickle.load(pkl_file)
 
-
 @app.route('/', methods = ['POST', 'GET'])
 def index():
     #if request.method == 'POST':
         #ticker = request.form['ticker']
         #features = request.form['features']
         #return redirect("https://www.google.com")
-        #return redirect(url_for('about'))
+        #return redirect(url_for('about'))      
     return render_template('index.html')
+   
+    
+@app.route('/toronto', methods=['GET', 'POST'])
+def toronto():
+    location = pd.read_csv('./data/dowtown_toronto_lat_long.csv')
+    location.name = location.name.astype(str)
+    longitude = location['longitude']
+    latitude = location['latitude']
+    T = nx.read_gml('./data/Downtown Toronto.gml')
+    ys = [[location.latitude[location.name == edge[0]].iloc[0],location.latitude[location.name == edge[1]].iloc[0]] for edge in list(T.edges())]
+    xs = [[location.longitude[location.name == edge[0]].iloc[0],location.longitude[location.name == edge[1]].iloc[0]] for edge in list(T.edges())]
+    
+    #outProj = pyproj.Proj("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs")
+    # resulting projection, WGS84, long, lat
+    #p =pyproj.Proj(init='epsg:4326')
+    #longitude, latitude = pyproj.transform(p,outProj,np.array(longitude), np.array(latitude))
+    
+    
+    p = figure(title = "Microgrids in Downtown Toronto",plot_width=500, plot_height=500, x_axis_type="mercator", y_axis_type="mercator", 
+               x_range = (min(longitude) -0.25*(max(longitude) - min(longitude)), max(longitude) + 0.25*(max(longitude) - min(longitude))),
+               y_range = (min(latitude) -0.25*(max(latitude) - min(latitude)), max(latitude) + 0.25*(max(latitude) - min(latitude))))
+               
+    p.add_tile(CARTODBPOSITRON_RETINA)
+
+    # add a circle renderer with a size, color, and alpha
+    p.circle(longitude,latitude, size=20, color="coral")
+    p.multi_line(xs, ys, color="dimgray", line_width=4)
+    #p.text(longitude, latitude, bnames)
+    
+
+    script, div = components(p)
+    
+    return render_template('toronto.html', script=script, div=div) 
+
     
 
 @app.route('/about', methods=['GET', 'POST'])
