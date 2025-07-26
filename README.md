@@ -83,3 +83,12 @@ ml_microgrids/
 
 Optimizes microgrid infrastructure for urban environments, reducing energy costs and improving grid resilience during extreme weather events through intelligent ML-driven network design.
 
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Akshay Sharma**
+- Data Scientist
+- Expertise in large-scale data processing and machine learning
