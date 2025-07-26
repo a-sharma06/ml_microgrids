@@ -4,6 +4,7 @@
 [![Flask](https://img.shields.io/badge/Flask-0.10.1-green.svg)](https://flask.palletsprojects.com/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-0.19.1-orange.svg)](https://scikit-learn.org/)
 [![NetworkX](https://img.shields.io/badge/NetworkX-2.0-red.svg)](https://networkx.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Interactive web application for intelligent microgrid design using machine learning and network optimization algorithms.**
 
